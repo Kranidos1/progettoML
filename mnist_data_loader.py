@@ -34,28 +34,22 @@ class MNISTDataLoader:
         """
         self.dataset_params = dataset_params
 
-        # Caricamento dell'intero dataset e riduzione alle dimensioni desiderate
         train_dataset, test_dataset = self._get_datasets(
             train_size = self.dataset_params.train_size,
             test_size = self.dataset_params.test_size
         )
 
-        # Salvataggio dei dati di training e test nei relativi attributi
         self.x_train_full, self.y_train_full = train_dataset[0], train_dataset[1]
         self.x_test_full, self.y_test_full = test_dataset[0], test_dataset[1]
 
-        # Normalizzazione (0-1) e standardizzazione rispetto a mean e std del train
         self._normalize_data()
 
-        # Imposta la dimensione di input originale o ridimensiona, se richiesto
         self.input_dim = self.dataset_params.input_dim
         if self.dataset_params.resize_shape is not None:
             self._resize_images(resize_shape = self.dataset_params.resize_shape)
 
-        # Appiattisce le immagini in vettori monodimensionali
         self._flatten_inputs()
 
-        # Conversione label in one-hot encoding
         self._labels_to_one_hot_encoding(num_classes = self.dataset_params.num_classes)
 
         # Creazione del dataset di validazione, se previsto (validation_perc > 0)
@@ -173,7 +167,6 @@ class MNISTDataLoader:
             self.x_test_full[..., tf.newaxis], resize_shape
         ).numpy()
 
-        # Aggiorna la dimensione di input di conseguenza
         self.input_dim = resize_shape[0] * resize_shape[1]
 
     def _flatten_inputs(self):

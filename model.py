@@ -4,6 +4,7 @@ import seaborn as sns
 from sklearn.metrics import precision_score, recall_score, f1_score
 from mnist_data_loader import MNISTDataLoader
 from hyperparameters import DataLoaderParameters, TrainingParameters, RPropParameters
+import time
 
 
 class MLPModel:
@@ -462,6 +463,7 @@ class MLPModel:
                 - confusion_matrix (tf.Tensor): Matrice di confusione sul test set
                 - num_epoch (int): Numero di epoche effettivamente eseguite
         """
+        start_time = time.time()
         self.debug_print("\n============================================")
         self.debug_print(f"TRAINING CON N. HIDDEN = {self.hidden_layer_neurons}")
         self.debug_print("============================================")
@@ -470,9 +472,12 @@ class MLPModel:
 
         test_loss, test_acc, confusion_matrix = self.evaluate()
 
+        end_time = time.time()
+        full_computation_time = end_time - start_time
+
         self.debug_print(value = (
             f"\nRISULTATI FINALI per n_hidden = {self.hidden_layer_neurons} : "
-            f"Test Loss = {test_loss:.4f} | Test Acc = {test_acc:.4f}"
+            f"Test Loss = {test_loss:.4f} | Test Acc = {test_acc:.4f} | Computation Time = {full_computation_time}"
         ))
 
         if self.training_params.show_graphics:
