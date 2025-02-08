@@ -35,7 +35,7 @@ Le principali caratteristiche sono:
 - **📌 `settings.py`**  
   Contiene le classi che gestiscono tutti i parametri configurabili del progetto:
   - **`DataLoaderParameters`**: Specifica le dimensioni dei sottoinsiemi di training, test e validazione, oltre al ridimensionamento delle immagini e al numero di classi.
-  - **`TrainingParameters`**: Definisce gli hyperparametri per il training (numero massimo di epoche, patience, min_delta, seed, lista delle dimensioni da sperimentare per il livello nascosto, attivazione della stampa di debug e dei grafici).
+  - **`TrainingParameters`**: Definisce gli iperparametri per il training (numero massimo di epoche, patience, min_delta, seed, lista delle dimensioni da sperimentare per il livello nascosto, attivazione della stampa di debug e dei grafici).
   - **`RPropParameters`**: Imposta i parametri dell’algoritmo RProp (fattori di incremento/decremento dello step-size, valore iniziale e limiti minimo/massimo).
   - **`ModelParameters`** *(solo descrittivo)*: Riporta alcune informazioni sul modello (funzioni di attivazione, metodo di inizializzazione dei pesi, ecc.).
 
