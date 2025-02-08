@@ -26,11 +26,11 @@ Le principali caratteristiche sono:
 ## 📁 Struttura del Progetto
 
 ```plaintext
-├── main.py                   # Punto di ingresso del progetto
-├── model.py                  # Implementazione del modello MLP e degli algoritmi (RProp, metriche, etc.)
-├── mnist_data_loader.py      # Caricamento e preprocessamento del dataset MNIST
-├── settings.py               # Gestione dei parametri (dataset, training, RProp)
-└── requirements.txt          # Dipendenze del progetto
+├── main.py                   
+├── model.py                  
+├── mnist_data_loader.py      
+├── settings.py               
+└── requirements.txt          
 ```
 - **📌 `settings.py`**  
   Contiene le classi che gestiscono tutti i parametri configurabili del progetto:
@@ -68,7 +68,7 @@ Il modello genera:
 - 📋 Report su Precision, Recall, F1-score
 ### Esempio di output:
 ```
-Epoch 5/25 | Train Loss: 0.1452, Train Acc: 96.54% | Val Loss: 0.1721, Val Acc: 94.88%
-Early stopping attivato dopo 5 epoche.
-Test Loss: 0.1653 | Test Acc: 95.04% | Computation Time: 45.6s
+Epoch 5/25 | Train Loss: 0.0767, Train Acc: 0.9820, Train Prec: 0.9820, Train Rec: 0.9817, Train F1: 0.9819 | Val Loss: 0.2092, Val Acc: 0.9430, Val Prec: 0.9421, Val Rec: 0.9411, Val F1: 0.9411
+Nessun miglioramento per 2 epoche.
+RISULTATI FINALI per n_hidden = 64 : Test Loss: 0.1653 | Test Acc: 95.04% | Computation Time: 45.6s
 ```
