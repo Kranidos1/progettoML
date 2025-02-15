@@ -592,7 +592,7 @@ class MLPModel:
             yticklabels=labels,
             annot_kws={"size": 12}
         )
-        plt.subtitle(f"hidden layer con {self.hidden_layer_neurons} neuroni", fontsize=12)
+        plt.suptitle(f"hidden layer con {self.hidden_layer_neurons} neuroni", fontsize=12)
         plt.title(f"Matrice di Confusione", fontsize=16)
         plt.xlabel("Etichette Predette", fontsize=14)
         plt.ylabel("Etichette Reali", fontsize=14)
