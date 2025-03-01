@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import precision_score, recall_score, f1_score
 from mnist_data_loader import MNISTDataLoader
-from hyperparameters import DataLoaderParameters, TrainingParameters, RPropParameters
+from settings import DataLoaderParameters, TrainingParameters, RPropParameters
 import time
 
 

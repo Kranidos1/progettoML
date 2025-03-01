@@ -33,7 +33,7 @@ class TrainingParameters:
         self.min_delta = 1e-4
 
         self.debug = True
-        self.show_graphics = False
+        self.show_graphics = True
 
 # --- RProp ---
 class RPropParameters:

@@ -1,5 +1,5 @@
 import tensorflow as tf
-from hyperparameters import DataLoaderParameters
+from settings import DataLoaderParameters
 
 
 class MNISTDataLoader:

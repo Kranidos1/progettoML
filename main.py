@@ -2,9 +2,17 @@ import tensorflow as tf
 import numpy as np
 from mnist_data_loader import MNISTDataLoader
 from model import MLPModel
-from hyperparameters import DataLoaderParameters, TrainingParameters, RPropParameters, ModelParameters
+from settings import DataLoaderParameters, TrainingParameters, RPropParameters, ModelParameters
 
 if __name__ == "__main__":
+
+    physical_devices = tf.config.list_physical_devices('GPU')
+    if physical_devices:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+        print("GPU disponibile e configurata.")
+    else:
+        print("GPU non trovata. Eseguo su CPU.")
+
 
     # Inizializzazione delle classi di parametri
     data_loader_params = DataLoaderParameters()
