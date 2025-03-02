@@ -1,7 +1,7 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from mnist_data_loader import MNISTDataLoader
 from settings import DataLoaderParameters, TrainingParameters, RPropParameters
 import time
@@ -217,9 +217,10 @@ class MLPModel:
         Returns:
             tf.Tensor: Accuratezza media (tra 0 e 1).
         """
-        preds = tf.argmax(logits, axis = 1)
-        labels = tf.argmax(labels_onehot, axis = 1)
-        return tf.reduce_mean(tf.cast(tf.equal(preds, labels), tf.float32))
+        preds = tf.argmax(logits, axis=1).numpy()  # Converti i tensori in array NumPy
+        labels = tf.argmax(labels_onehot, axis=1).numpy()
+        return accuracy_score(labels, preds)
+        # return tf.reduce_mean(tf.cast(tf.equal(preds, labels), tf.float32))
 
     def get_confusion_matrix(self, logits, y):
         """
@@ -239,6 +240,7 @@ class MLPModel:
             preds,
             num_classes = self.data_loader_params.num_classes
         )
+        
         return cm
 
     def _init_rprop_arrays(self):
@@ -274,6 +276,7 @@ class MLPModel:
         Args:
             grads (dict): Dizionario {nome_parametro: gradiente}.
         """
+        # {"W1": ..., "W2": ..., "b1": ...,"b2": ....}
         for key in self.params_dict.keys():
             grad = grads[key]
             grad_sign = tf.sign(grad)
@@ -327,13 +330,14 @@ class MLPModel:
         min_delta = self.training_params.min_delta
 
         for epoch in range(self.training_params.max_epochs):
-            # Calcolo dei gradienti tramite GradientTape
+            # Calcolo dei gradienti tramite GradientTape che registra gradienti automaticamente sui tensori
             with tf.GradientTape() as tape:
                 logits_train = self.forward_pass(x_train)
                 loss_train = self.cross_entropy_loss(logits_train, y_train)
 
             # Ottengo i gradienti in forma di dict
             grads_tensors = tape.gradient(loss_train, list(self.params_dict.values()))
+            # Associo a ogni nome di parametro il relativo gradiente e creo un dizionario
             grads_dict = dict(zip(self.params_dict.keys(), grads_tensors))
 
             # Aggiorno i pesi con RProp
@@ -353,9 +357,9 @@ class MLPModel:
 
             # Salvataggio metriche nei rispettivi storici
             self.loss_train_history.append(loss_train.numpy())
-            self.acc_train_history.append(acc_train.numpy())
+            self.acc_train_history.append(acc_train)
             self.loss_val_history.append(loss_val.numpy())
-            self.acc_val_history.append(acc_val.numpy())
+            self.acc_val_history.append(acc_val)
             self.precision_train_history.append(precision_train)
             self.recall_train_history.append(recall_train)
             self.f1_train_history.append(f1_train)
@@ -408,7 +412,7 @@ class MLPModel:
         acc_test = self.accuracy_fn(logits_test, y_test)
         confusion_matrix = self.get_confusion_matrix(logits_test, y_test)
 
-        return loss_test.numpy(), acc_test.numpy(), confusion_matrix
+        return loss_test.numpy(), acc_test, confusion_matrix
 
     def get_metrics(self, logits, y):
         """
@@ -424,9 +428,9 @@ class MLPModel:
         preds = tf.argmax(logits, axis = 1).numpy()
         labels = tf.argmax(y, axis = 1).numpy()
 
-        precision = precision_score(labels, preds, average = "macro", zero_division = 0)
-        recall = recall_score(labels, preds, average = "macro", zero_division = 0)
-        f1 = f1_score(labels, preds, average = "macro", zero_division = 0)
+        precision = precision_score(labels, preds, average = "weighted", zero_division = 0)
+        recall = recall_score(labels, preds, average = "weighted", zero_division = 0)
+        f1 = f1_score(labels, preds, average = "weighted", zero_division = 0)
 
         return precision, recall, f1
 
